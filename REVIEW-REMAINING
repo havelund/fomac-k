@@ -1,0 +1,51 @@
+
+ - in the beginning of Sect. 2 it would be useful to stress that K is
+   an executable language, as this is an important feature
+
+ - (p5) it would be helpful to explain in more detail the status of
+   constraints: how are they related to class invariants? Are
+   quantifiers allowed? (yes, but that becomes only clear much later)
+   In this context, it would be interesting to know what you do when
+   Z3 fails to prove or disprove a verification condition.
+
+ - I was a little surprised that you seem to allow implementation
+   overriding in K, but neither of the "Change" aspects (Sect. 3)
+   addresses this issue. Shouldn't mechanisms such as behavioral
+   subtyping come into play here? For example, in Sect. 3.2 you
+   stipulate that functions are "pure" (don't change the state), which
+   seems rather restrictive. This is not required, for example, in
+   JML.
+
+ - In addition to Dafny, it would be appropriate to mention the ABS
+   (for: Abstract Behavioral Specification) language. It has been
+   designed with analysis in mind and comes with a rich tool box (test
+   generation, deadlock analysis, resource analysis, formal
+   verification). See http://dx.doi.org/10.1007/978-3-642-25271-6_8
+   and http://dx.doi.org/10.1007/978-3-642-40615-7_1
+
+ - In the paper you concentrate on correctness. Can you say something
+   on non-functional properties (e.g., performance)? These should be
+   very relevant for the intended application domain.
+
+ - Another tool that keeps proofs, specs and programs in sync is
+   described in http://dx.doi.org/10.1007/978-3-319-10181-1_4
+
+ - An important aspect of change is when the requirements or the
+   specifications (e.g., the function contracts) change. This has a
+   strong impact on verification, because potentially a large number
+   of proof obligations need to be re-established. Recently, there was
+   some research on this issue, see
+   http://dx.doi.org/10.1007/978-3-662-45231-8_9
+
+ - Can you say what the state of the language/tool is? Is it used
+   already? Do you plan a public release?
+
+Some typos:
+
+ - "Each properties" (p3)
+ - "to a large extent ... sofar mostly" (p6)
+ - "software software" (p6)
+ - "was added a Monday" (p6)
+ - "trivial" --> "easy" (p9)
+
+---------------
