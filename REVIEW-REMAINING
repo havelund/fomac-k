@@ -2,11 +2,31 @@
  - in the beginning of Sect. 2 it would be useful to stress that K is
    an executable language, as this is an important feature
 
+Well it is not executable, although the plan is (was) to make a subset executable.
+
  - (p5) it would be helpful to explain in more detail the status of
    constraints: how are they related to class invariants? Are
    quantifiers allowed? (yes, but that becomes only clear much later)
    In this context, it would be interesting to know what you do when
    Z3 fails to prove or disprove a verification condition.
+
+Constraints are class invariants. However, since side effects are not allowed in
+the current version of K, they simply become axioms on names defined in the signature
+of a class.
+
+Constraints can be expressed in predicate logic, including universal and existential
+quantification.
+
+Z3 can respond in 3 ways: 
+
+  (1) it finds a model satisfying the constraints, meaning that the
+      constraints are consistent. In this case Z3 returns with one of the 
+      models satisfying the constraints.
+
+  (2) The constraints are not consistent, and Z3 returns with the result NOTSAT.
+      In addition, Z3 can identify which constraints possibly lead to the inconistency.
+
+  (3) it cannot determine in reasonable time. It times out.
 
  - I was a little surprised that you seem to allow implementation
    overriding in K, but neither of the "Change" aspects (Sect. 3)
@@ -16,6 +36,8 @@
    seems rather restrictive. This is not required, for example, in
    JML.
 
+Not sure what to do here.
+
  - In addition to Dafny, it would be appropriate to mention the ABS
    (for: Abstract Behavioral Specification) language. It has been
    designed with analysis in mind and comes with a rich tool box (test
@@ -23,12 +45,18 @@
    verification). See http://dx.doi.org/10.1007/978-3-642-25271-6_8
    and http://dx.doi.org/10.1007/978-3-642-40615-7_1
 
+Ok.
+
  - In the paper you concentrate on correctness. Can you say something
    on non-functional properties (e.g., performance)? These should be
    very relevant for the intended application domain.
 
+Not targeted by this work.
+
  - Another tool that keeps proofs, specs and programs in sync is
    described in http://dx.doi.org/10.1007/978-3-319-10181-1_4
+
+Ok.
 
  - An important aspect of change is when the requirements or the
    specifications (e.g., the function contracts) change. This has a
@@ -37,8 +65,14 @@
    some research on this issue, see
    http://dx.doi.org/10.1007/978-3-662-45231-8_9
 
+Ok, not sure what to do about it. Could reference that work.
+
  - Can you say what the state of the language/tool is? Is it used
    already? Do you plan a public release?
+
+It is used by a small group of people at JPL for expressing requirements
+and verify their consistency. The use is, however, still in evaluation mode.
+It is public (via Chris Delp’s carpet bombing open source repository).
 
 Some typos:
 
