@@ -3,7 +3,7 @@
 
 \subsection{Behavior}
 
-\Klang{} has to a large extent at JPL sofar mostly been used for specifying static 
+\Klang{} at JPL so far, has mostly been used for specifying static 
 structure, similar to what can be represented by UML/SysML class diagrams, with 
 requirements typically constraining integer and real variables that represent 
 properties of physical nature, such as for example weights and distances.
@@ -22,44 +22,45 @@ scheduling.
 
 \subsubsection{State Machines}
 
-State machines are commonly used to specify the behavior of software as well as 
-hardware systems. They are frequently used at JPL for specifying the behavior of
-embedded flight software software modules controlling, for example, planetary 
-rovers. A state machine is defined by a collection of states,
-a collection of events, and a labeled transition relation (labels are events) 
-between states. This can of course be modeled in numerous ways. Here we shall 
-assume deterministic state machines, and model the transition relation as a 
-function. 
-The \Klang{} model in Figure \ref{fig:statemachine} represents an encoding of a 
-state machine modeling a rocket engine, which can be in one of the states:  
-\name{off}, \name{ready} or \name{firing}. Events include \name{turn\_on}, 
-\name{fire}, and \name{turn\_off}. The types of states and events (\name{State} and 
-\name{Event}) are modeled as body-less classes. The class \name{RocketEngine}
-models our state machine. It defines the three states as well as the 
-three events as properties of the appropriate types. A requirement expresses that 
-the states are all different (a similar requirement should in principle also be 
-provided for events).
+State machines are commonly used to specify the behavior of software
+as well as hardware systems. They are frequently used at JPL for
+specifying the behavior of embedded flight software modules
+controlling, for example, planetary rovers. A state machine is defined
+by a collection of states, a collection of events, and a labeled
+transition relation (labels are events) between states. This can of
+course be modeled in numerous ways. Here we shall assume deterministic
+state machines, and model the transition relation as a function.  The
+\Klang{} model in Figure \ref{fig:statemachine} represents an encoding
+of a state machine modeling a rocket engine, which can be in one of
+the states: \name{off}, \name{ready} or \name{firing}. Events include
+\name{turn\_on}, \name{fire}, and \name{turn\_off}. The types of
+states and events (\name{State} and \name{Event}) are modeled as
+body-less classes. The class \name{RocketEngine} models our state
+machine. It defines the three states as well as the three events as
+properties of the appropriate types. A requirement expresses that the
+states are all different (a similar requirement should in principle
+also be provided for events).
 
-The function \name{move} represents the transition relation, and 
-is declared to take two arguments: a state and event, and to return a state. 
-It has no body, meaning that it yet to be defined. The subsequent four  
-requirements define the 
-\name{move} function. For example the first requirement states that
-in the \name{off} state, on encountering a \name{turn\_on} event, the engine moves 
-to the \name{ready} state. 
+The function \name{move} represents the transition relation, and is
+declared to take two arguments: a state and event, and to return a
+state.  It has no body, meaning that it yet to be defined. The
+subsequent four requirements define the \name{move} function. For
+example the first requirement states that in the \name{off} state, on
+encountering a \name{turn\_on} event, the engine moves to the
+\name{ready} state.
 
-The last requirement demanding the engine to move from the \name{ready} state to 
-the \name{off} state on a \name{fire} event was added a Monday morning by a tired
-modeler, and in our context represents a change to the model.
-This requirement, however, is inconsistent with a previous requirement 
-that demands the resulting state to be \name{firing}.
-Since \name{move} is a function (the transition relation is deterministic), and 
-cannot return two
-different values for the same argument, this is detected by the solver. 
-Without this last requirement, the solver will declare the model satisfiable, and 
-will synthesize the state machine function based on the provided requirements.
-Note, however, that not all transitions are modeled, hence the synthesized state
-machine may not be the desired one.
+The last requirement demanding the engine to move from the
+\name{ready} state to the \name{off} state on a \name{fire} event was
+added on a Monday morning by a tired modeler, and in our context
+represents a change to the model.  This requirement, however, is
+inconsistent with a previous requirement that demands the resulting
+state to be \name{firing}.  Since \name{move} is a function (the
+transition relation is deterministic), and cannot return two different
+values for the same argument, this is detected by the solver.  Without
+this last requirement, the solver will declare the model satisfiable,
+and will synthesize the state machine function based on the provided
+requirements.  Note, however, that not all transitions are modeled,
+hence the synthesized state machine may not be the desired one.
 
 \begin{figure}
 \centering
@@ -108,24 +109,24 @@ question. The functions specify whether an event occurs
 \name{contains} the other event. We do not include the full set of
 Allen logic operators for sake of brevity. 
 
-Using this foundation, it is now
-trivial to specify schedules and events. This is exactly what the
-\name{Schedule} class does. Five events are created as instances of
-the \name{Event} class. The actual schedule is specified as a
-requirement, which expresses the ordering of the events. In this
-particular example, the schedule specifies that the \name{sciWindow}
-(science window) must occur before the \name{commWindow} (communication
-window) and at least one science
+Using this foundation, it is now easy to specify schedules and
+events. This is exactly what the \name{Schedule} class does. Five
+events are created as instances of the \name{Event} class. The actual
+schedule is specified as a requirement, which expresses the ordering
+of the events. In this particular example, the schedule specifies that
+the \name{sciWindow} (science window) must occur before the
+\name{commWindow} (communication window) and at least one science
 activity must have taken place. By translating the scheduling
-specification to SMT2 and applying the \zthree{} theorem prover, it can now 
-be checked if the provided ordering on the events is satisfiable or not by checking
-if the \name{Schedule} class is satisfiable. A satisfying assignment
-to the class also provides us with a concrete time line of the events.
-It can be common for schedules and events to change as the project
-evolves and reaches maturity. Using such a mechanism for encoding the
-schedule of events provides great power and flexibility. Dealing with
-the changing schedule is easily done by either modifying existing
-constraints in the \name{Schedule} class, or by adding new events and
+specification to SMT2 and applying the \zthree{} theorem prover, it
+can now be checked if the provided ordering on the events is
+satisfiable or not by checking if the \name{Schedule} class is
+satisfiable. A satisfying assignment to the class also provides us
+with a concrete time line of the events.  It can be common for
+schedules and events to change as the project evolves and reaches
+maturity. Using such a mechanism for encoding the schedule of events
+provides great power and flexibility. Dealing with the changing
+schedule is easily done by either modifying existing constraints in
+the \name{Schedule} class, or by adding new events and
 constraints. Each change in the schedule is also verified using a
 theorem prover, which adds greater confidence in the change.
 
