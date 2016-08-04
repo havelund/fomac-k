@@ -5,71 +5,71 @@
 {\scriptsize 
 
 \begin{verbatim}
-model: packageDeclaration?  importDeclaration*  
-       annotationDeclaration*  topDeclaration* EOF;
+model: 
+  packageDeclaration? importDeclaration*  
+  annotationDeclaration* topDeclaration* EOF;
 
-packageDeclaration:  'package' qualifiedName ;
+packageDeclaration: 'package' qualifiedName ;
 
-importDeclaration:  'import' qualifiedName ('.' '*')? ;
+importDeclaration: 'import' qualifiedName ('.' '*')? ;
 
-annotationDeclaration:  'annotation' Identifier ':' type ;
+annotationDeclaration: 'annotation' Identifier ':' type ;
 
-annotation:  '@' Identifier '(' expression ')' ;
+annotation: '@' Identifier '(' expression ')' ;
 
 topDeclaration: annotation* entityDeclaration | annotation* memberDeclaration ;
 
-entityDeclaration: ('class'|'assoc'|Identifier) Keyword? Identifier 
-  typeParameters? extending? ('{' block '}')? ;
+entityDeclaration: 
+  ('class'|'assoc'|Identifier) Keyword? Identifier typeParameters? extending? 
+  ('{' block '}')? ;
 
-Keyword:  '<' Identifier '>' ;
+Keyword: '<' Identifier '>' ;
 
-typeParameters:  '[' typeParameter (',' typeParameter)* ']' ;
+typeParameters: '[' typeParameter (',' typeParameter)* ']' ;
 
-typeParameter:  Identifier (':' typeBound)? ;
+typeParameter: Identifier (':' typeBound)? ;
 
-typeBound:  type ('+' type)* ;
+typeBound: type ('+' type)* ;
       
-extending:  'extends' type (',' type)* ;
+extending: 'extends' type (',' type)* ;
 
-block:   blockDeclaration* ;
+block: blockDeclaration* ;
 
-blockDeclaration:  annotation* memberDeclaration  ;
+blockDeclaration: annotation* memberDeclaration  ;
 
 memberDeclaration:
- typeDeclaration  | propertyDeclaration  | functionDeclaration
- | constraint | expression  ;
+ typeDeclaration | propertyDeclaration | functionDeclaration | 
+ constraint | expression  ;
 
-typeDeclaration:  'type' Identifier (typeParameters? '=' type )? ;
+typeDeclaration: 'type' Identifier (typeParameters? '=' type )? ;
 
 propertyDeclaration:
-  propertyModifier* Identifier ':' type multiplicity? 
-  (('='|':=') expression)? ;
+  propertyModifier* Identifier ':' type multiplicity? (('='|':=') expression)? ;
 
-propertyModifier: 'part' | 'var' | 'val' | 'ordered' | 'unique' 
-  | 'source' | 'target';
+propertyModifier: 
+  'part' | 'var' | 'val' | 'ordered' | 'unique' | 'source' | 'target';
 
 functionDeclaration:
   'fun' Identifier typeParameters? ('(' paramList ')')? (':' type)?
-    functionSpecification* ('{' block '}')? ;
+  functionSpecification* ('{' block '}')? ;
 
-paramList:  param (',' param)* ;
+paramList: param (',' param)* ;
 
-param:  Identifier ':' type ;
+param: Identifier ':' type ;
 
-functionSpecification:  'pre'  expression | 'post' expression ;
+functionSpecification: 'pre' expression | 'post' expression ;
 
-constraint:  'req' (Identifier ':')?  expression ;
+constraint: 'req' (Identifier ':')? expression ;
 
-multiplicity:  '[' expressionOrStar (',' expressionOrStar)? ']' ;
+multiplicity: '[' expressionOrStar (',' expressionOrStar)? ']' ;
 
-expressionOrStar:  expression | '*' ;
+expressionOrStar: expression | '*' ;
 
 type:
-  primitiveType | classIdentifier typeArguments? | type ('*' type)+       
-  | type '->' type | '(' type ')' 
-  | '{|' Identifier ':' type  SUCHTHAT expression '|}' ;
+  primitiveType | classIdentifier typeArguments? | type ('*' type)+ | 
+  type '->' type | '(' type ')' | '{|' Identifier ':' type ':-' expression '|}' ;
 
-primitiveType: 'Bool'  | 'Char'  | 'Int' | 'Real' | 'String' | 'Unit' ;
+primitiveType: 'Bool' | 'Char' | 'Int' | 'Real' | 'String' | 'Unit' ;
 
 classIdentifier: qualifiedName | 'Class' | collectionKind ;
 
@@ -81,27 +81,26 @@ expression:
     '(' expression ')' | 'Tuple' '(' expression (',' expression)+ ')' 
   | literal | Identifier | expression '.' Identifier 
   | expression '(' argumentList? ')' 
-  | '!' expression | '{' block  '}' 
+  | '!' expression | '{' block '}' 
   | 'if' expression 'then' expression ('else' expression)? 
   | 'match' expression 'with' match+  
   | 'while' expression 'do' expression  
   | 'for' pattern 'in' expression 'do' expression 
   | collectionKind '{' expressionList? '}' 
   | collectionKind '{' expression '..' expression '}' 
-  | collectionKind '{' expression '|' rngBindingList 
-      SUCHTHAT expression '}' 
-  | expression ('*'|'/'|'%'|'inter'|'\\'|'++'|'
+  | collectionKind '{' expression '|' rngBindingList ':-' expression '}' 
+  | expression ('*'|'/'|'%'|'inter'|'\\'|'++'|'#'|'^') expression
   | expression ('+'|'-'|'union') expression 
-  | expression ('<=' | '>=' | '<' | '>' | '=') expression
-  | expression ('!=' | 'isin'|'!isin'|'subset'|'psubset') expression 
-  | expression ('&&' | '||') expression 
-  | expression ('=>' | '<=>') expression 
-  | expression (':=' | 'is' | 'as') expression 
+  | expression ('<='|'>='|'<'|'>'|'=') expression
+  | expression ('!='|'isin'|'!isin'|'subset'|'psubset') expression 
+  | expression ('&&'|'||') expression 
+  | expression ('=>'|'<=>') expression 
+  | expression (':='|'is'|'as') expression 
   | 'assert' '(' expression ')' 
   | '-' expression 
   | qualifiedName '~' 
-  | 'forall' rngBindingList SUCHTHAT expression 
-  | 'exists' rngBindingList SUCHTHAT expression 
+  | 'forall' rngBindingList ':-' expression 
+  | 'exists' rngBindingList ':-' expression 
   | pattern '->' expression 
   | 'continue' | 'break'  | 'return' expression? | '$result' ;
 
@@ -115,7 +114,7 @@ namedArgumentList: namedArgument (',' namedArgument)* ;
 
 namedArgument : Identifier '::' expression ;
 
-collectionOrType: expression  | type ;
+collectionOrType: expression | type ;
 
 rngBindingList: rngBinding (',' rngBinding)* ;
 
@@ -124,8 +123,7 @@ rngBinding: patternList ':' collectionOrType ;
 patternList: pattern (',' pattern)* ;
 
 pattern:
-  literal | '_' | Identifier | '(' pattern (',' pattern)+ ')'
-  | pattern ':' type ;
+  literal | '_' | Identifier | '(' pattern (',' pattern)+ ')' | pattern ':' type ;
   
 identifierList: Identifier (',' Identifier)* ;
 
@@ -134,11 +132,8 @@ expressionList: expression (',' expression)* ;
 qualifiedName: Identifier ('.' Identifier)* ;
 
 literal:
-  IntegerLiteral | RealLiteral | CharacterLiteral | StringLiteral
-  | BooleanLiteral | NullLiteral | ThisLiteral ;
-
-SUCHTHAT : ':-' ;
-
+  IntegerLiteral | RealLiteral | CharacterLiteral | StringLiteral | 
+  BooleanLiteral | NullLiteral | ThisLiteral ;
 \end{verbatim}
 }
 
