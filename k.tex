@@ -18,7 +18,7 @@ provide an overview of the \Klang{} language. The presentation is
 centered around the example \Klang{} model of geometric shapes, shown
 in Figure \ref{fig:shapes}.
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
 \begin{tabular}{c}
 \hline \\
@@ -29,12 +29,11 @@ in Figure \ref{fig:shapes}.
 \label{fig:shapes}
 \end{figure}
 
-
 \begin{description}
 
 \item [Classes]: Similar to classes in other object-oriented 
-  languages, the classes in
-  \Klang{} provide the construct for performing abstraction. It is \Klang{}'s
+  languages, the class in
+  \Klang{} is the construct for performing abstraction. It is \Klang{}'s
    module concept. Classes can be arranged in packages, as in \java.
    A class can contain properties (corresponding to fields in \java), functions, 
    and constraints, as discussed below. For example, class \name{Triangle} 
@@ -116,13 +115,16 @@ in Figure \ref{fig:shapes}.
   an example in Section~\ref{sec:change}.
   
 \item [Expression Language]: Similar to other high-level 
-  specification and programming 
-  languages, \Klang{} provides a rich
-  expression language, in this case for specifying functions and
-  requirements. \Klang{} provides multiple operators such as
-  implication, conjunction, disjunction, arithmetic operators,
-  if-then-else statements, for/while loops, blocks, predicate logic
-  with quantifiers etc. 
+  specification languages, \Klang{} provides a rich
+  expression language for specifying functions and
+  requirements. \Klang{} generally provides predicate logic
+  with  multiple operators, such as
+  arithmetic  operators,
+  Boolean operators, 
+  if-then-else, 
+  blocks (a form of let-expressions inspired by Scala), 
+  set and sequence constructors and operators,
+  and universal and existential quantification.
 
 \item [Annotations] \Klang{} provides the ability to create new
   annotations by specifying a name and a type for the annotation. The
@@ -151,8 +153,8 @@ types, such as digits, strings, etc.
 Currently, the \Klang{} infrastructure comes with a parser, that has
 been generated using ANTLR version 4. Using the parser, an abstract syntax
 tree is
-created that is used for performing type checking. In addition to
-performing type checking, we have also developed a translator from
+created that is used for performing type checking. In addition, 
+we have also developed a translator from
 \Klang{} to SMT2, which currently is processed by the \zthree{}
 theorem prover \cite{de2008z3}.  This is used as a means to perform various checks
 such as function specification satisfiability, class consistency

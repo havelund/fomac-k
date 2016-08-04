@@ -24,7 +24,7 @@ languages. Here refinement is the simpler theory implication: the
 implementation shall imply the specification in a logic sense. \asml{}
 \cite{asml05} is a more recent wide-spectrum specification language,
 in many ways similar to \vdm{}, but based on the idea
-that operations operate on algebras.  Other fundamental works on
+that operations with side effects operate on algebras.  Other fundamental works on
 refinement include (not a comprehensive list):
 \cite{wirth-refinement-71,hoare-sanders-refinement-86,morgan-refinement-94,woodcock-sanders-z-96,back-wright-refinement-98,abrial-eventb-10}.
 
@@ -73,7 +73,7 @@ structures and functors. Some \eml{} specifications are executable,
 since \sml{} function definitions are just axioms of a certain special
 form. This makes \eml{} a wide-spectrum language.
 
-Programming languages are now also being built with verification in
+Programming languages are now also being designed with verification in
 mind.  \dafny{} \cite{leino-lpar-2010} supports specifications that
 can be used to write correctness conditions for programs.
 It is supported by a verifier, which is implemented on top of the
