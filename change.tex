@@ -79,7 +79,7 @@ Event scheduling is a very common problem faced in a plethora of
 fields and domains. The typical scenario usually involves specifying
 multiple different allowed orderings of events and determining whether
 the specified ordering is satisfiable or not, and if satisfiable,
-possibly generating a timeline for the specified events.
+generating a timeline for the specified events.
 Figure~\ref{fig:scheduling} shows one such example encoded using
 \Klang{}.
 
@@ -105,8 +105,8 @@ class encode Allen logic operators \cite{allen-logic-84}
 using simple mathematical
 expressions on the start and end times of two events in
 question. The functions specify whether an event occurs
-\name{before} another event $e$, \name{meets} the other event, or
-\name{contains} the other event. We do not include the full set of
+\name{before} another event $e$, \name{meets} another event $e$, or
+\name{contains} another event $e$. We do not include the full set of
 Allen logic operators for sake of brevity. 
 
 Using this foundation, it is now easy to specify schedules and
@@ -125,9 +125,9 @@ with a concrete time line of the events.  It can be common for
 schedules and events to change as the project evolves and reaches
 maturity. Using such a mechanism for encoding the schedule of events
 provides great power and flexibility. Dealing with the changing
-schedule is easily done by either modifying existing constraints in
-the \name{Schedule} class, or by adding new events and
-constraints. Each change in the schedule is also verified using a
+schedule is easily done by either modifying existing requirements 
+in the \name{Schedule} class, or by adding new events and
+requirements. Each change in the schedule is also verified using a
 theorem prover, which adds greater confidence in the change.
 
 
@@ -264,7 +264,7 @@ mathematical function refinement in Figure \ref{fig:prepost}. Instead, the
 proof corresponding to equation (\ref{eq:refinement}) above is provided
 in the separate class \name{RefinementProof} in Figure \ref{fig:lightswitch-proof}.
 To express the refinement property to be proved, an instance \name{spec} of the
-specification and an instance \name{impl} are created such that we can refer to their respective operations (functions). Then the abstraction function \name{abs} is defined from the concrete state of integers to the abstract state \name{State}
+specification and an instance \name{impl} of the implementation are created such that we can refer to their respective operations (functions). Then the abstraction function \name{abs} is defined from the concrete state of integers to the abstract state \name{State}
 of the specification. Finally, the requirement is the \Klang{} formulation of 
 equation (\ref{eq:refinement}) above, ignoring the pre-condition part since all
 pre-conditions in this example are true. The \Klang{} solver proves the

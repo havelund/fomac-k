@@ -5,10 +5,10 @@
 \Klang{} is intended to represent a textual modeling language capable
 of representing \sysml{} concepts, specifically class diagrams with
 constraints.  However, as mentioned in the introduction, it also
-contains programming constructs.  As such it can be perceived as a
+contains programming constructs, although these are not yet supported by theorem proving or execution.  As such it can be perceived as a
 wide-spectrum modeling/programming language.
 
-Wide spectrum specification languages have been investigated to length
+Wide-spectrum specification languages have been investigated to length
 in the formal methods community. One of the well-known examples is
 \vdm{} \cite{vdm78,bjoerner-jones-82,jones90,jones-shaw-90}. \vdm{} in
 its original form \cite{vdm78} provided a combination of procedural
@@ -19,17 +19,17 @@ object-orientation to \vdm{}, which is now part of the \vdm{}
 standard. The \raiselang{} specification language (\rsl{})
 \cite{raise92} is a wide-spectrum language taking inspiration from
 \vdm{} as well as from other modeling languages such as \zlang{}
-\cite{spivey-Z-1988}, and from algebraic equational specification
+\cite{spivey-Z-1988}, and algebraic equational specification
 languages. Here refinement is the simpler theory implication: the
 implementation shall imply the specification in a logic sense. \asml{}
 \cite{asml05} is a more recent wide-spectrum specification language,
-in many ways similar to \vdm{}, but based on the fundamental concept
+in many ways similar to \vdm{}, but based on the idea
 that operations operate on algebras.  Other fundamental works on
 refinement include (not a comprehensive list):
 \cite{wirth-refinement-71,hoare-sanders-refinement-86,morgan-refinement-94,woodcock-sanders-z-96,back-wright-refinement-98,abrial-eventb-10}.
 
 \alloy{} \cite{jackson-alloy-12} added new life to this community by
-being supported by a automated SAT solver. In many respects, \Klang{}
+being supported by an automated SAT solver. In many respects, \Klang{}
 is close in spirit to \alloy{}, but differs by being supported by an
 automated SMT solver (in contrast to a SAT solver), resulting in a
 richer set of constructs, including arithmetic, being exposed to
@@ -41,7 +41,7 @@ modeling. In contrast to automated provers, interactive theorem
 provers such as \pvs{} \cite{cade92-pvs,pvs-website}, \coq{}
 \cite{coq-website}, and \isabelle{} \cite{isabelle-website}, allow the
 user to steer the proofs.  Although this allows to perform more
-complex proofs, it is also requires more skills of the user, and time,
+complex proofs, it also requires more skills of the user, and time,
 which is often a limited resource in software development projects.
 
 Several high-level programming languages have been developed over
@@ -75,8 +75,8 @@ form. This makes \eml{} a wide-spectrum language.
 
 Programming languages are now also being built with verification in
 mind.  \dafny{} \cite{leino-lpar-2010} supports specifications that
-can be used to write functional-correctness conditions for programs.
-It is supported by verifier, which is implemented on top of the
+can be used to write correctness conditions for programs.
+It is supported by a verifier, which is implemented on top of the
 \boogie{} verification engine, which itself is built on top of
 \zthree.  \whythree{} \cite{filliatre-why3-2011} provides a rich
 language for specification and programming, called \whyml{}, and
@@ -87,7 +87,7 @@ automated extraction mechanism. Model checking is another form of
 analysis that has been applied to programming languages.  Java
 PathFinder~\cite{havelund-jpf-00,havelund-visser02} performs model
 checking of Java programs. \slam{} \cite{ball2010slam2} performs
-static analysis and counter-example guided abstraction refinement to
+static analysis and counter-example guided abstraction refinement of
 device drivers, and has been applied in a large scale industry
 setting.  \spin{} \cite{holzmann-spin-2004} performs model checking of
 models expressed in the \promela{} language, but can also model check
@@ -95,9 +95,16 @@ models expressed in the \promela{} language, but can also model check
 system provide various types of analysis such as resource analysis,
 deadlock analysis, as well as tools to perform test generation and
 formal verification.
+%%%
+The notions of abstract contracts and abstract class invariants
+are introduced in \cite{abstract-contracts-14}, in order 
+to reduce proof efforts when contracts change. 
+In \cite{interactive-IDE-14} is presented 
+an approach to integrate a semiautomaticverification tool into a state-of-the-art integrated developmentenvironment (IDE), with the specific objective to keep implementation,specification and proofs in sync. 
+%%%
 
 The great improvements in model checking, static analysis, theorem
-proving, and SMT solvers such as Z3~\cite{de2008z3} have all
+proving, and SMT solvers such as Z3 have all
 contributed to investigating and dealing with software change. To this
 effect, differential symbolic execution~\cite{person2008differential}
 has been investigated for establishing equivalence between two
@@ -115,7 +122,7 @@ community.
 An important use of \Klang{} that we have observed so far, which
 differs in the way traditional verification tools are used, is that
 modelers tend to use \Klang{} along with it's solving ability as a
-tool for {\em discovering} the right set of constraints for their
+tool for {\em discovering} the right set of requirements for their
 class before introducing a change. For example, uncertainty about a
 particular variable and it's potential range of valid values can be
 quite common in modeling environments. Since \Klang{} helps discover

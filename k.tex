@@ -25,14 +25,15 @@ in Figure \ref{fig:shapes}.
 \lstinputlisting{examples/shapes.k} \\ \\
 \hline
 \end{tabular}
-\caption{A simple model of geometrical shapes expressed using \Klang{}}
+\caption{A simple model of geometrical shapes in \Klang{}}
 \label{fig:shapes}
 \end{figure}
 
 
 \begin{description}
 
-\item [Classes]: Similar to classes in other languages, the classes in
+\item [Classes]: Similar to classes in other object-oriented 
+  languages, the classes in
   \Klang{} provide the construct for performing abstraction. It is \Klang{}'s
    module concept. Classes can be arranged in packages, as in \java.
    A class can contain properties (corresponding to fields in \java), functions, 
@@ -41,7 +42,7 @@ in Figure \ref{fig:shapes}.
 
 \item [Inheritance]: \Klang{} provides the \code{extends} keyword for
   specifying an inheritance relation. In Figure~\ref{fig:shapes},
-  \name{TAngle} class extends the \name{Angle} class. As a result,
+  the \name{TAngle} class extends the \name{Angle} class. As a result,
   \name{TAngle}, not only inherits the properties and functions of
   \name{Angle}, but also the constraints. \Klang{} also allows for
   multiple inheritance. Property and function names must be uniquely
@@ -53,7 +54,7 @@ in Figure \ref{fig:shapes}.
 
 \item [Collections]: \Klang{} provides \code{Set}, \code{Seq}, and
   \code{Bag} as the three basic collections. \Klang{} also provides
-  support for \name{Tuple} to create Cartesian products. The shapes model
+  support for tuples. The shapes model
   does not contain collections.
 
 \item [Properties]: In \Klang{}, properties can be present within
@@ -89,7 +90,8 @@ in Figure \ref{fig:shapes}.
   (we use the term {\em requirements} for constraints) followed by a
   name (optional), and an expression that specifies the constraint on
   the class. Constraints are class invariants. However, since side
-  effects are not allowed in the current version of K, they simply
+  effects are not supported with analysis in the current version of K, 
+  constraints simply
   become axioms on names defined in the signature of a class. For
   example, in class \name{Angle}, the \name{value} of any angle should
   always be between 0 and 360 degrees. Multiple constraints can also
@@ -103,20 +105,21 @@ in Figure \ref{fig:shapes}.
 \item [Functions]: A function provides the ability to perform
   computation. In \Klang{}, functions can take arguments and return
   the result of the computation of the function. The \name{eq}
-  function in class \name{Angle} compares the given angle's value to
-  its own and returns a \code{Bool}.
+  function in class \name{Angle} compares a given argument angle's value to
+  the class local angle value, returning a \code{Bool}.
 
 \item [Function Specifications]: Each function in \Klang{} can also
   have a \emph{specification} associated with it. The specification
   can be a \code{pre}-condition and/or a
-  \code{post}-condition. The shapes examples does not contain function
+  \code{post}-condition. The shapes example does not contain function
   specifications. They are discussed in more detail along with
   an example in Section~\ref{sec:change}.
   
-\item [Expression Language]: Similar to other high level programming
-  languages such as Java and Scala, \Klang{} provides a rich
-  expression language for specifying behaviors, functions, and
-  constraints. \Klang{} provides multiple operators such as
+\item [Expression Language]: Similar to other high-level 
+  specification and programming 
+  languages, \Klang{} provides a rich
+  expression language, in this case for specifying functions and
+  requirements. \Klang{} provides multiple operators such as
   implication, conjunction, disjunction, arithmetic operators,
   if-then-else statements, for/while loops, blocks, predicate logic
   with quantifiers etc. 
@@ -124,7 +127,7 @@ in Figure \ref{fig:shapes}.
 \item [Annotations] \Klang{} provides the ability to create new
   annotations by specifying a name and a type for the annotation. The
   annotations can then be applied by writing an $@$ sign followed by
-  the annotation name and possible parameters, immediately before the 
+  the annotation name, and possible parameters, immediately before the 
   element that is desired to be annotated. There is no limit on how many 
   annotations can be applied to any entity. 
 
@@ -135,8 +138,8 @@ in Figure \ref{fig:shapes}.
 \end{description}
 
 In addition to the language constructs described here, \Klang{} also
-has support for programming with \name{side effects} (assignment,
-sequential composition, and looping constructs), \name{type
+has syntactic support for programming with \name{side effects} (assignment,
+sequential composition, and looping constructs, although these concepts are not yet supported by theorem proving or execution), \name{type
   abbreviations}, as well as \sysml{}/\uml{} specific concepts such as
 \name{associations} and \name{multiplicities} (which can be used for
 specifying the allowed size of a property).  To conserve space, these
@@ -145,17 +148,31 @@ Appendix~\ref{app:grammar} shows part of the \Klang{} ANTLR grammar,
 omitting grammar rules dealing with parsing of values of primitive
 types, such as digits, strings, etc.
 
-Currently, the \Klang{} infrastructure comes with a parser that has
-been generated using ANTLR version 4. Using the parser, an AST is
+Currently, the \Klang{} infrastructure comes with a parser, that has
+been generated using ANTLR version 4. Using the parser, an abstract syntax
+tree is
 created that is used for performing type checking. In addition to
-performing type checking, we have also created a translation of
+performing type checking, we have also developed a translator from
 \Klang{} to SMT2, which currently is processed by the \zthree{}
-theorem prover.  This is used as a means to perform various checks
+theorem prover \cite{de2008z3}.  This is used as a means to perform various checks
 such as function specification satisfiability, class consistency
-checking, and model generation. The entire \Klang{} infrastructure is
-implemented using \scala. In the future, it is possible that a subset
-of the language is made executable. The source code along with binary
-releases along with a fully functional online interpreter and \Klang{}
+checking, and model generation. 
+%%%
+More generally, K works (similarly to \zthree{}) by finding an 
+assignment to all properties that satisfies the requirements (constraints). 
+In case there are more than one assignment satisfying the 
+requirements, an arbitrary is returned (although the result is 
+deterministic). In case no assignment is possible, an 
+identification of which 
+requirements are inconsistent is returned. In the worst
+case scenario, the solver cannot determine the result 
+in reasonable time, and it times out after a user-definable
+time period.
+%%%
+The entire \Klang{} infrastructure is
+implemented using \scala. It is planned to make a subset
+of the language executable. The source code along with binary
+releases along with a fully functional online solver and \Klang{}
 editor can be found at~\cite{theklanguage}. It is used by engineers and
 developers at JPL for expressing requirements and verifying their
 consistency. The use is, however still in evaluation mode.
